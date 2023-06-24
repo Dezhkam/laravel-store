@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-<title> ایجاد روش ارسال</title>
+<title>افزودن به فروش شگفت انگیز</title>
 @endsection
 
 @section('content')
@@ -10,8 +10,8 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item font-size-12"> <a href="#">خانه</a></li>
       <li class="breadcrumb-item font-size-12"> <a href="#">بخش فروش</a></li>
-      <li class="breadcrumb-item font-size-12"> <a href="#">روش های ارسال</a></li>
-      <li class="breadcrumb-item font-size-12 active" aria-current="page"> ایجاد روش ارسال</li>
+      <li class="breadcrumb-item font-size-12"> <a href="#">برند</a></li>
+      <li class="breadcrumb-item font-size-12 active" aria-current="page"> افزودن به فروش شگفت انگیز</li>
     </ol>
   </nav>
 
@@ -21,12 +21,12 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                  ایجاد روش ارسال
+                    افزودن به فروش شگفت انگیز
                 </h5>
             </section>
 
             <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                <a href="{{ route('admin.market.delivery.index') }}" class="btn btn-info btn-sm">بازگشت</a>
+                <a href="{{ route('admin.market.discount.amazingSale') }}" class="btn btn-info btn-sm">بازگشت</a>
             </section>
 
             <section>
@@ -35,22 +35,29 @@
 
                         <section class="col-12 col-md-6">
                             <div class="form-group">
-                                <label for="">نام روش ارسال</label>
+                                <label for="">نام کالا</label>
                                 <input type="text" class="form-control form-control-sm">
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group">
-                                <label for="">هزینه روش ارسال</label>
+                                <label for="">درصد تخفیف</label>
                                 <input type="text" class="form-control form-control-sm">
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group">
-                                <label for="">زمان ارسال</label>
+                                <label for="">تاریخ شروع</label>
                                 <input type="text" class="form-control form-control-sm">
                             </div>
                         </section>
+                        <section class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="">تاریخ پایان</label>
+                                <input type="text" class="form-control form-control-sm">
+                            </div>
+                        </section>
+
 
                         <section class="col-12">
                             <button class="btn btn-primary btn-sm">ثبت</button>

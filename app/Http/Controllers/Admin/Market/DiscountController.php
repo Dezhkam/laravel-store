@@ -21,7 +21,7 @@ class DiscountController extends Controller
     }
     public function commonDiscountCreate()
     {
-        return view('admin.market.discount.copan-create');
+        return view('admin.market.discount.common-create');
     }
     public function amazingSale()
     {

@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-<title>برند</title>
+<title>نمایش نظر ها</title>
 @endsection
 
 @section('content')
