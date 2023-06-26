@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Market\BrandController;
 use App\Http\Controllers\Admin\Market\OrderController;
 use App\Http\Controllers\Admin\Market\StoreController;
 use App\Http\Controllers\admin\notify\EmailController;
+use App\Http\Controllers\admin\ticket\TicketController;
 use App\Http\Controllers\Admin\User\CustomerController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\Market\CommentController;
@@ -293,5 +294,22 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
     });
 
     });
+
+    Route::prefix('ticket')->namespace('Ticket')->group(function(){
+
+        Route::get('/new-tickets', [TicketController::class, 'newTickets'])->name('admin.ticket.newTickets');
+        Route::get('/open-tickets', [TicketController::class, 'openTickets'])->name('admin.ticket.openTickets');
+        Route::get('/close-tickets', [TicketController::class, 'closeTickets'])->name('admin.ticket.closeTickets');
+        Route::get('/', [TicketController::class, 'index'])->name('admin.ticket.index');
+        Route::get('/show', [TicketController::class, 'show'])->name('admin.ticket.show');
+        Route::get('/create', [TicketController::class, 'create'])->name('admin.ticket.create');
+        Route::post('/store', [TicketController::class, 'store'])->name('admin.ticket.store');
+        Route::get('/edit/{id}', [TicketController::class, 'edit'])->name('admin.ticket.edit');
+        Route::put('/update/{id}', [TicketController::class, 'update'])->name('admin.ticket.update');
+        Route::delete('/destroy/{id}', [TicketController::class, 'destroy'])->name('admin.ticket.destroy');
+
+    });
+
+
 
 });
