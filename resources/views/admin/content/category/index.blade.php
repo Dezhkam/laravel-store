@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item font-size-12"> <a href="#">خانه</a></li>
@@ -37,38 +36,28 @@
                         <tr>
                             <th>#</th>
                             <th>نام دسته بندی</th>
-                            <th>دسته والد</th>
+                            <th>توضیحات</th>
+                            <th>اسلاگ</th>
+                            <th>عکس</th>
+                            <th>تگ ها</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>نمایشگر	</td>
-                            <td>کالای الکترونیکی</td>
-                            <td class="width-16-rem text-left">
-                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
-                                <button class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>2</th>
-                            <td>نمایشگر	</td>
-                            <td>کالای الکترونیکی</td>
-                            <td class="width-16-rem text-left">
-                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
-                                <button class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>3</th>
-                            <td>نمایشگر	</td>
-                            <td>کالای الکترونیکی</td>
-                            <td class="width-16-rem text-left">
-                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
-                                <button class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
-                            </td>
-                        </tr>
+                        @foreach ($postCategories as $postCategory)
+                            <tr>
+                                <th>{{ $postCategory->id }}</th>
+                                <td>{{ $postCategory->name }}	</td>
+                                <td>{{ $postCategory->description }}</td>
+                                <td>{{ $postCategory->slug }}</td>
+                                <td><img src="asset({{ $postCategory->image }})" width="50" height="50"></td>
+                                <td>{{ $postCategory->tags }}</td>
+                                <td class="width-16-rem text-left">
+                                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                    <button class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </section>
