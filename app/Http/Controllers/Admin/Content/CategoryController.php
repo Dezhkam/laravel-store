@@ -98,7 +98,7 @@ class CategoryController extends Controller
         $postCategory->status = $postCategory->status==0 ? 1 : 0;
         $result = $postCategory->save();
         if($result){
-            if($postCategory->sattus ==0 ){
+            if($postCategory->status ==0 ){
                 return response()->json(['status'=>true,'checked'=>false]);
             }else{
                 return response()->json(['status'=>true,'checked'=>true]);
