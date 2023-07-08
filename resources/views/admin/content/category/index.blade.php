@@ -101,9 +101,9 @@
                     //alert(response.checked);
                     if(response.status){
                         if(response.checked)
-                        element.prop('checked', true);
+                            element.prop('checked', true);
                         else
-                        element.prop('checked', false);
+                            element.prop('checked', false);
                     }
                     else{
                         element.prop('checked', elementValue);
