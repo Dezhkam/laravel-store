@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Content;
 
+use App\Http\Services\Image\ImageCacheService;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,6 +30,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $imageCache = new ImageCacheService();
+        return $imageCache->cache('public/1.png');
         return view('admin.content.category.create');
     }
 
