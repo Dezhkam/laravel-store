@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Content\PostCategory;
+use App\Http\Services\Image\ImageService;
 use App\Http\Requests\Admin\Content\PostCategoryRequest;
 
 class CategoryController extends Controller
@@ -41,7 +42,17 @@ class CategoryController extends Controller
     {
         $inputs = $request->all();
         $inputs['slug'] = str_replace(' ','-',$inputs['name']) . '-' . Str::random(5);
-        $inputs['image'] = 'image';
+        if($request->hasFile('image')){
+            $imageService = new ImageService();
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-category');
+            // $result = $imageService->save($request->file('image'));
+            // $result = $imageService->fitAndSave($request->file('image'));
+            $result = $imageService->createIndexAndSave($request->file('image'));
+        }
+        if($result===false){
+            return redirect()->route('admin.content.category.index')->with('swal-error','دسته بندی شما با موفقیت ایجاد گردید')->with('toast-success','دسته بندی شما با موفقیت ایجاد گردید')->with('alert-section-success','آپلود تصویر با خطا مواجه شد');
+        }
+        $inputs['image'] = $result;
         $postCategory =  PostCategory::create($inputs);
         return redirect()->route('admin.content.category.index')->with('swal-success','دسته بندی شما با موفقیت ایجاد گردید')->with('toast-success','دسته بندی شما با موفقیت ایجاد گردید')->with('alert-section-success','دسته بندی شما با موفقیت ایجاد گردید');
     }
