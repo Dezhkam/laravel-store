@@ -53,7 +53,7 @@ class CategoryController extends Controller
             $result = $imageService->createIndexAndSave($request->file('image'));
         }
         if($result===false){
-            return redirect()->route('admin.content.category.index')->with('swal-error','دسته بندی شما با موفقیت ایجاد گردید')->with('toast-success','دسته بندی شما با موفقیت ایجاد گردید')->with('alert-section-success','آپلود تصویر با خطا مواجه شد');
+            return redirect()->route('admin.content.category.index')->with('swal-error','آپلود تصویر با خطا مواحه شد')->with('toast-success','دسته بندی شما با موفقیت ایجاد گردید')->with('alert-section-success','آپلود تصویر با خطا مواجه شد');
         }
         $inputs['image'] = $result;
         $postCategory =  PostCategory::create($inputs);
@@ -92,7 +92,25 @@ class CategoryController extends Controller
     public function update(PostCategoryRequest $request, PostCategory $postCategory)
     {
         $inputs = $request->all();
-        $inputs['image'] = 'image';
+        if($request->hasFile('image')){
+            $imageService = new ImageService();
+             if(!empty($postCategory->image)){
+                $imageService->deleteDirectoryAndFiles($postCategory->image['directory']);
+            }
+            
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-category');
+            $result = $imageService->createIndexAndSave($request->file('image'));
+            if($result===false){
+                return redirect()->route('admin.content.category.index')->with('swal-error','آپلود تصویر با خطا مواحه شد')->with('toast-success','دسته بندی شما با موفقیت ایجاد گردید')->with('alert-section-success','آپلود تصویر با خطا مواجه شد');
+            }
+            $inputs['image'] = $result;
+        }else{
+            if(isset($inputs['currentImage']) && !empty($postCategory->image)){
+                $image = $postCategory->image;
+                $image['currentImage'] = $inputs['currentImage'];
+                $inputs['image'] = $image;
+            }
+        }
         $postCategory =  $postCategory->update($inputs);
         return redirect()->route('admin.content.category.index')->with('swal-success','دسته بندی شما با موفقیت ویرایش گردید');
     }

@@ -96,9 +96,30 @@
                                 </strong>
                             </span>
                         @enderror
+                            <section class="row">
+                                @php
+                                    $number =1;
+                                @endphp
+
+                                @foreach ($postCategory->image['indexArray'] as $key=>$value)
+                                    <section class="col-md-{{ 6 / $number }}">
+                                        <div class="form-check">
+                                             <input type="radio" name="currentImage" id="{{ $number }}" value="{{ $key }}" class="form-check-input" @if ($postCategory->image['currentImage'] == $key)
+                                                checked
+                                             @endif >
+                                            <label for="" class="form-check-label mx-2">
+                                                <img src="{{ asset($value) }}" class="w-100" alt="" >
+                                            </label>
+                                        </div>
+
+                                    </section>
+                                    @php
+                                        $number++;
+                                    @endphp
+                                @endforeach
+                                
+                            </section>
                         </section>
-
-
                         <section class="col-12">
                             <div class="form-group">
                                 <label for="">توضیحات</label>
