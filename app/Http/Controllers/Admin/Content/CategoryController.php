@@ -30,8 +30,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $imageCache = new ImageCacheService();
-        return $imageCache->cache('public/1.png');
+        // $imageCache = new ImageCacheService();
+        // return $imageCache->cache('public/1.png');
         return view('admin.content.category.create');
     }
 
