@@ -79,7 +79,7 @@
                                     {{ $message }}
                                 </strong>
                             </span>
-                        @enderror
+                        @enderror 
                         </section>
 
                         <section class="col-12 col-md-6 my-2">
