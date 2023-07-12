@@ -4,7 +4,7 @@ namespace App\Http\Requests\Admin\Content;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostCategoryRequest extends FormRequest
+class PostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,8 @@ class PostCategoryRequest extends FormRequest
     {
         if($this->isMethod('post')){
             return [
-                'name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-                'description' => 'required|max:500|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
+                'title' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
+                'summary' => 'required|max:500|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
                 'image' => 'required|image:png,jpg,jpeg,gif',
                 'status' => 'required|numeric|in:0,1',
                 'tags' => 'required|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
@@ -38,10 +38,5 @@ class PostCategoryRequest extends FormRequest
                 'tags' => 'required|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
             ];
         }
-    }
-    public function attributes():array
-    {
-        return[   
-        ];
     }
 }
