@@ -101,7 +101,7 @@ class CategoryController extends Controller
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-category');
             $result = $imageService->createIndexAndSave($request->file('image'));
             if($result===false){
-                return redirect()->route('admin.content.category.index')->with('swal-error','آپلود تصویر با خطا مواحه شد')->with('toast-success','دسته بندی شما با موفقیت ایجاد گردید')->with('alert-section-success','آپلود تصویر با خطا مواجه شد');
+                return redirect()->route('admin.content.category.index')->with('swal-error','آپلود تصویر با خطا مواحه شد');
             }
             $inputs['image'] = $result;
         }else{

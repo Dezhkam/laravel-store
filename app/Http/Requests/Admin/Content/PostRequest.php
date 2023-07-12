@@ -21,7 +21,8 @@ class PostRequest extends FormRequest
      */
     public function rules(): array
     {
-        if($this->isMethod('post')){
+        
+        if($this->method()=="POST"){
             return [
                 'title' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
                 'summary' => 'required|max:500|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
@@ -31,8 +32,8 @@ class PostRequest extends FormRequest
             ];
         }else{
             return [
-                'name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-                'description' => 'required|max:500|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
+                'title' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
+                'summary' => 'required|max:500|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
                 'image' => 'image:png,jpg,jpeg,gif',
                 'status' => 'required|numeric|in:0,1',
                 'tags' => 'required|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',

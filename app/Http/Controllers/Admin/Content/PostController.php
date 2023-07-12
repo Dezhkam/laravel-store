@@ -77,9 +77,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        $postCategories = PostCategory::all();
+        return view('admin.content.post.edit',compact('post','postCategories'));
     }
 
     /**
@@ -89,9 +90,33 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostRequest $request, Post $post)
     {
-        //
+        $inputs = $request->all();
+        // date fixed
+        $realTimestampsStart = substr($request->published_at,0,10);
+        $inputs['published_at'] = Date("Y-m-d H:i:s",(int)$realTimestampsStart);
+        if($request->hasFile('image')){
+            $imageService = new ImageService();
+             if(!empty($post->image)){
+                $imageService->deleteDirectoryAndFiles($post->image['directory']);
+            }
+            
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post');
+            $result = $imageService->createIndexAndSave($request->file('image'));
+            if($result===false){
+                return redirect()->route('admin.content.post.index')->with('swal-error','آپلود تصویر با خطا مواحه شد');
+            }
+            $inputs['image'] = $result;
+        }else{
+            if(isset($inputs['currentImage']) && !empty($post->image)){
+                $image = $post->image;
+                $image['currentImage'] = $inputs['currentImage'];
+                $inputs['image'] = $image;
+            }
+        }
+        $postCategory =  $post->update($inputs);
+        return redirect()->route('admin.content.post.index')->with('swal-success','پست شما با موفقیت ویرایش گردید');
     }
 
     /**
@@ -100,8 +125,35 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+       $result = $post->delete();
+       return redirect()->route('admin.content.post.index')->with('swal-success','پست شما با موفقیت حذف گردید');
+    }
+    public function status(Post $post){
+        $post->status = $post->status==0 ? 1 : 0;
+        $result = $post->save();
+        if($result){
+            if($post->status ==0 ){
+                return response()->json(['status'=>true,'checked'=>false]);
+            }else{
+                return response()->json(['status'=>true,'checked'=>true]);
+            }
+        }else{
+            return response()->json(['status'=>false]);
+        }
+    }
+    public function commentable(Post $post){
+        $post->commentable = $post->commentable==0 ? 1 : 0;
+        $result = $post->save();
+        if($result){
+            if($post->commentable ==0 ){
+                return response()->json(['commentable'=>true,'checked'=>false]);
+            }else{
+                return response()->json(['commentable'=>true,'checked'=>true]);
+            }
+        }else{
+            return response()->json(['commentable'=>false]);
+        }
     }
 }
