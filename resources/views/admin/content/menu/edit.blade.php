@@ -53,12 +53,12 @@
                                 <div class="form-group">
                                     <label for="">منو والد</label>
                                     <select name="parent_id" id="" class="form-control form-control-sm">
-                                        {{-- <option value="">والد را انتخاب کنید</option> --}}
-                                        @foreach ($menus as $mnu)
-                                            @if ($mnu->id != $menu->id)
-                                                <option value="{{ $mnu->id }}" @if ($mnu->id == old('parent_id',$menu->parent_id))
+                                        <option value="">منوی اصلی</option>
+                                        @foreach ($parent_menus as $parent_menu)
+                                            @if ($parent_menu->id != $menu->id)
+                                                <option value="{{ $parent_menu->id }}" @if ($parent_menu->id == old('parent_id',$menu->parent_id))
                                                     selected
-                                                @endif>{{ $mnu->name }}</option>
+                                                @endif>{{ $parent_menu->name }}</option>
                                             @endif
                                         @endforeach
                                     </select>

@@ -52,11 +52,11 @@
                                 <div class="form-group">
                                     <label for="">منو والد</label>
                                     <select name="parent_id" id="" class="form-control form-control-sm">
-                                        {{-- <option value="0">منوی اصلی</option> --}}
-                                        @foreach ($menus as $menu)
-                                            <option value="{{ $menu->id }}" @if ($menu->id == old('parent_id'))
+                                        <option value="">منوی اصلی</option>
+                                        @foreach ($parent_menus as $parent_menu)
+                                            <option value="{{ $parent_menu->id }}" @if ($parent_menu->id == old('parent_id'))
                                                 selected
-                                            @endif>{{ $menu->name }}</option>
+                                            @endif>{{ $parent_menu->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('parent_id')
@@ -84,7 +84,7 @@
                                 @enderror
                             </section>
 
-                            <section class="col-12 col-md-6">
+                            <section class="col-12 col-md-6 mt-2">
                                 <div class="form-group">
                                     <label for="status">وضعیت</label>
                                     <select name="status" id="" class="form-control form-control-sm"
