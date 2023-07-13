@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Content;
 use App\Models\Content\Menu;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Content\MenuRequest;
 
 class MenuController extends Controller
 {
@@ -26,7 +27,8 @@ class MenuController extends Controller
      */
     public function create()
     {
-        return view('admin.content.menu.create');
+        $menus = Menu::all();
+        return view('admin.content.menu.create',compact('menus'));
     }
 
     /**
@@ -35,9 +37,11 @@ class MenuController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MenuRequest $request)
     {
-        //
+        $inputs = $request->all();
+        $menu =  Menu::create($inputs);
+        return redirect()->route('admin.content.menu.index')->with('swal-success','منو شما با موفقیت ایجاد گردید');
     }
 
     /**
@@ -57,9 +61,10 @@ class MenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Menu $menu)
     {
-        //
+        $menus = Menu::all();
+        return view('admin.content.menu.edit',compact('menu','menus'));
     }
 
     /**
@@ -69,9 +74,11 @@ class MenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MenuRequest $request, Menu $menu)
     {
-        //
+        $inputs = $request->all();
+        $menu =  $menu->update($inputs);
+        return redirect()->route('admin.content.menu.index')->with('swal-success','منو شما با موفقیت ویرایش گردید');
     }
 
     /**

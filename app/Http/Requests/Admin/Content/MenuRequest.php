@@ -22,9 +22,10 @@ class MenuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:500|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;&?؟ ]+$/u',
-            'answer' => 'required|max:500|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r&?؟ ]+$/u',
-            'tags' => 'required|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
+            'name' => 'required|max:500|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;&?؟ ]+$/u',
+            'parent_id' =>  'exists:menus,id',
+            'url' => 'required',
+            'status' => 'required|in:0,1',
         ];
     }
 }
