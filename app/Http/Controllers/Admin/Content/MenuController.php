@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Content;
 
-use App\Http\Controllers\Controller;
+use App\Models\Content\Menu;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class MenuController extends Controller
 {
@@ -14,7 +15,8 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return view('admin.content.menu.index');
+        $menus = Menu::orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('admin.content.menu.index', compact('menus'));
     }
 
     /**
@@ -78,8 +80,22 @@ class MenuController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Menu $menu)
     {
-        //
+       $result = $menu->delete();
+       return redirect()->route('admin.content.menu.index')->with('swal-success','منو شما با موفقیت حذف گردید');
+    }
+    public function status(Menu $menu){
+        $menu->status = $menu->status==0 ? 1 : 0;
+        $result = $menu->save();
+        if($result){
+            if($menu->status ==0 ){
+                return response()->json(['status'=>true,'checked'=>false]);
+            }else{
+                return response()->json(['status'=>true,'checked'=>true]);
+            }
+        }else{
+            return response()->json(['status'=>false]);
+        }
     }
 }
