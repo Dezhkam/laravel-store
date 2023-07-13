@@ -9,7 +9,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item font-size-12"> <a href="#"> خانه</a></li>
-      <li class="breadcrumb-item font-size-12"> <a href="#"> بخش فروش</a></li>
+      <li class="breadcrumb-item font-size-12"> <a href="#"> بخش محتوی</a></li>
       <li class="breadcrumb-item font-size-12 active" aria-current="page"> نظرات</li>
     </ol>
   </nav>
@@ -38,37 +38,41 @@
                             <th>#</th>
                             <th>کد کاربر</th>
                             <th>نویسنده نظر</th>
-                            <th>کد کالا</th>
-                            <th>کالا</th>
-                            <th>وضعیت</th>
+                            <th>کد پست</th>
+                            <th>پست</th>
+                            <th>وضعیت تایید</th>
+                            <th>وضعیت کامنت</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>1231231</td>
-                            <td>حسن خسروجردی</td>
-                            <td>21321312</td>
-                            <td>ایفون 12</td>
-                            <td>در انتظار تایید</td>
-                            <td class="width-16-rem text-left">
-                                <a href="{{ route('admin.content.comment.show') }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> نمایش</a>
-                                <button class="btn btn-success btn-sm" type="submit"><i class="fa fa-check"></i> تایید</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>2</th>
-                            <td>1231231</td>
-                            <td>حسن خسروجردی</td>
-                            <td>21321312</td>
-                            <td>ایفون 12</td>
-                            <td>تایید شده</td>
-                            <td class="width-16-rem text-left">
-                                <a href="{{ route('admin.content.comment.show') }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> نمایش</a>
-                                <button class="btn btn-warning btn-sm" type="submit"><i class="fa fa-clock"></i> عدم تایید</button>
-                            </td>
-                        </tr>
+                        @foreach ($comments as $key => $comment)
+                            <tr>
+                                <th>{{ $key+=1 }}</th>
+                                <td>{{ $comment->author_id }}</td>
+                                <td>Rasool</td>
+                                <td>{{ $comment->commentable_id }}</td>
+                                <td>Mobile Phone</td>
+                                <td>{{ $comment->approved==1 ? 'تایید شده' :'تاییدنشده' }}</td>
+                                <td>
+                                    <label>
+                                        <input id="{{ $comment->id }}"
+                                            onchange="changeStatus({{ $comment->id }})" type="checkbox"
+                                            data-url="{{ route('admin.content.comment.status', $comment->id) }}"
+                                            @if ($comment->status === 1) checked @endif>
+                                    </label>
+                                </td>
+                                
+                                <td class="width-16-rem text-left">
+                                    <a href="{{ route('admin.content.comment.show',$comment->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> نمایش</a>
+                                    @if ($comment->approved==1)
+                                        <button class="btn btn-warning btn-sm" type="submit"><i class="fa fa-check"></i> عدم تایید</button>
+                                    @else
+                                        <button class="btn btn-success btn-sm" type="submit"><i class="fa fa-check"></i>تایید</button>    
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </section>
@@ -78,3 +82,68 @@
 </section>
 
 @endsection
+@section('script')
+    <script type="text/javascript">
+        function changeStatus(id) {
+            var element = $("#" + id)
+            var url = element.attr('data-url')
+            var elementValue = !element.prop('checked');
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                success: function(response) {
+                    if (response.status) {
+                        if (response.checked) {
+                            element.prop('checked', true);
+                            successToast('نظر با موفقیت فعال شد');
+                        } else {
+                            element.prop('checked', false);
+                            successToast('نظر با موفقیت غیر فعال شد');
+                        }
+                    } else {
+                        element.prop('checked', elementValue);
+                        errorToast('هنگام ویرایش مشکلی به وجود آمده است');
+                    }
+                },
+                error: function() {
+                    errorToast('ارتباط برقرار نشد');
+
+                }
+            });
+
+            function successToast(message) {
+                var successToastTag = '<section class="toast" data-delay="5000" >\n' +
+                    '<section class="toast-body py-3 d-flex bg-success text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '</section>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close" >\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+                $('.toast-wrapper').append(successToastTag);
+                $('.toast').toast('show').delay(5500).queue(function() {
+                    $(this).remove();
+                })
+            }
+
+            function errorToast(message) {
+                var errorToastTag = '<section class="toast" data-delay="5000" >\n' +
+                    '<section class="toast-body py-3 d-flex bg-danger text-white">\n' +
+                    '<strong class="ml-auto">' + message + '</strong>\n' +
+                    '</section>\n' +
+                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close" >\n' +
+                    '<span aria-hidden="true">&times;</span>\n' +
+                    '</button>\n' +
+                    '</section>\n' +
+                    '</section>';
+                $('.toast-wrapper').append(errorToastTag);
+                $('.toast').toast('show').delay(5500).queue(function() {
+                    $(this).remove();
+                })
+            }
+        }
+    </script>
+@endsection
+
