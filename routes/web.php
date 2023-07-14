@@ -282,15 +282,7 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
 
     Route::prefix('notify')->namespace('Notify')->group(function(){
 
-        //email
-        Route::prefix('email')->group(function(){
-            Route::get('/', [EmailController::class, 'index'])->name('admin.notify.email.index');
-            Route::get('/create', [EmailController::class, 'create'])->name('admin.notify.email.create');
-            Route::post('/store', [EmailController::class, 'store'])->name('admin.notify.email.store');
-            Route::get('/edit/{id}', [EmailController::class, 'edit'])->name('admin.notify.email.edit');
-            Route::put('/update/{id}', [EmailController::class, 'update'])->name('admin.notify.email.update');
-            Route::delete('/destroy/{id}', [EmailController::class, 'destroy'])->name('admin.notify.email.destroy');
-    });
+        
 
         //sms
         Route::prefix('sms')->group(function(){
@@ -301,6 +293,18 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
             Route::put('/update/{sms}', [SMSController::class, 'update'])->name('admin.notify.sms.update');
             Route::delete('/destroy/{sms}', [SMSController::class, 'destroy'])->name('admin.notify.sms.destroy');
             Route::get('/status/{sms}', [SMSController::class, 'status'])->name('admin.notify.sms.status');
+
+    });
+
+        //email
+        Route::prefix('email')->group(function(){
+            Route::get('/', [EmailController::class, 'index'])->name('admin.notify.email.index');
+            Route::get('/create', [EmailController::class, 'create'])->name('admin.notify.email.create');
+            Route::post('/store', [EmailController::class, 'store'])->name('admin.notify.email.store');
+            Route::get('/edit/{email}', [EmailController::class, 'edit'])->name('admin.notify.email.edit');
+            Route::put('/update/{email}', [EmailController::class, 'update'])->name('admin.notify.email.update');
+            Route::delete('/destroy/{email}', [EmailController::class, 'destroy'])->name('admin.notify.email.destroy');
+            Route::get('/status/{email}', [EmailController::class, 'status'])->name('admin.notify.email.status');
 
     });
 
@@ -315,7 +319,7 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
         Route::get('/show', [TicketController::class, 'show'])->name('admin.ticket.show');
         Route::get('/create', [TicketController::class, 'create'])->name('admin.ticket.create');
         Route::post('/store', [TicketController::class, 'store'])->name('admin.ticket.store');
-        Route::get('/edit/{id}', [TicketController::class, 'edit'])->name('admin.ticket.edit');
+        Route::get('/edit/{``id``}', [TicketController::class, 'edit'])->name('admin.ticket.edit');
         Route::put('/update/{id}', [TicketController::class, 'update'])->name('admin.ticket.update');
         Route::delete('/destroy/{id}', [TicketController::class, 'destroy'])->name('admin.ticket.destroy');
 

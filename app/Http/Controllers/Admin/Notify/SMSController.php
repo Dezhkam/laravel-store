@@ -65,9 +65,9 @@ class SMSController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(SMS $sms)
     {
-        //
+        return view('admin.notify.sms.edit',compact('sms'));
     }
 
     /**
@@ -77,9 +77,14 @@ class SMSController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SMSRequest $request, SMS $sms)
     {
-        //
+        $inputs = $request->all();
+        // date fixed
+        $realTimestampsStart = substr($request->published_at,0,10);
+        $inputs['published_at'] = Date("Y-m-d H:i:s",(int)$realTimestampsStart);
+        $sms =  $sms->update($inputs);
+        return redirect()->route('admin.notify.sms.index')->with('swal-success','پیامک شما با موفقیت ویرایش گردید');
     }
 
     /**
@@ -88,9 +93,10 @@ class SMSController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(SMS $sms)
     {
-        //
+        $result = $sms->delete();
+       return redirect()->route('admin.notify.sms.index')->with('swal-success','پیامک شما با موفقیت حذف گردید');
     }
     public function status(SMS $sms){
         $sms->status = $sms->status==0 ? 1 : 0;
