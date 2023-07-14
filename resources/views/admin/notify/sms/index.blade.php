@@ -37,29 +37,26 @@
                         <tr>
                             <th>#</th>
                             <th>عنوان اطلاعیه</th>
+                            <th>متن پیامک</th>
                             <th>تاریخ ارسال	</th>
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>فروش ویژه بهاری		</td>
-                            <td>24 اردیبهشت 99	</td>
-                            <td class="width-16-rem text-left">
-                                <a href="#" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
-                                <button class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
-                            </td>
-                        </tr>
-                         <tr>
-                            <th>2</th>
-                            <td>فروش ویژه بهاری		</td>
-                            <td>24 اردیبهشت 99	</td>
-                            <td class="width-16-rem text-left">
-                                <a href="#" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
-                                <button class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
-                            </td>
-                        </tr>
+                        @foreach ($sms as $key=> $single_sms )
+                            <tr>
+                                <th>{{ $key+1 }}</th>
+                                <td>{{ $single_sms->title }}</td>
+                                <td>{{ $single_sms->body }}</td>
+                                <td>{{ jalaliDate($single_sms->published_at) }}</td>
+
+                                <td class="width-16-rem text-left">
+                                    <a href="#" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                    <button class="btn btn-danger btn-sm" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                        
 
 
                     </tbody>

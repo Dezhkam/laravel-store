@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\admin\notify;
 
-use App\Http\Controllers\Controller;
+use App\Models\Notify\SMS;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SMSController extends Controller
 {
@@ -14,7 +15,8 @@ class SMSController extends Controller
      */
     public function index()
     {
-        return view('admin.notify.sms.index');
+        $sms = SMS::orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('admin.notify.sms.index', compact('sms'));
     }
 
     /**
