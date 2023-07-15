@@ -49,12 +49,18 @@
                             <td>{{ $setting->title }}</td>
                             <td>{{ $setting->description }}</td>
                             <td>{{ $setting->keywords }}</td>
-                            <td>{{ $setting->logo }}</td>
-                            <td>{{ $setting->icon }}</td>
+                            <td>
+                                <img src="{{ asset($setting->logo) }}"
+                                alt="" width="50" height="50">
+                            </td>
+                            <td>
+                                <img src="{{ asset($setting->icon) }}"
+                                alt="" width="50" height="50">
+                            </td>
                             <td>{{ $setting->title }}</td>
                             <td> 	</td>
                             <td class="width-22-rem text-left">
-                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                <a href="{{ route('admin.setting.edit',$setting->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
 
                             </td>
                         </tr>
