@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\Market\DiscountController;
 use App\Http\Controllers\Admin\Market\PropertyController;
 use App\Http\Controllers\admin\setting\SettingController;
 use App\Http\Controllers\admin\user\PermissionController;
+use App\Http\Controllers\Admin\Notify\EmailFileController;
 use App\Http\Controllers\Admin\Content\CommentController as ContentCommentController;
 use App\Http\Controllers\Admin\Content\CategoryController as ContentCategoryController;
 
@@ -307,6 +308,18 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
             Route::get('/status/{email}', [EmailController::class, 'status'])->name('admin.notify.email.status');
 
     });
+
+    //email file
+    Route::prefix('email-file')->group(function(){
+        Route::get('/{email}', [EmailFileController::class, 'index'])->name('admin.notify.email-file.index');
+        Route::get('/{email/}create', [EmailFileController::class, 'create'])->name('admin.notify.email-file.create');
+        Route::post('/{email}/store', [EmailFileController::class, 'store'])->name('admin.notify.email-file.store');
+        Route::get('/edit/{file}', [EmailFileController::class, 'edit'])->name('admin.notify.email-file.edit');
+        Route::put('/update/{file}', [EmailFileController::class, 'update'])->name('admin.notify.email-file.update');
+        Route::delete('/destroy/{file}', [EmailFileController::class, 'destroy'])->name('admin.notify.email-file.destroy');
+        Route::get('/status/{file}', [EmailFileController::class, 'status'])->name('admin.notify.email-file.status');
+
+});
 
     });
 
