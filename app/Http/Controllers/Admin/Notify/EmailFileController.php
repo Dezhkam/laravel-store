@@ -65,31 +65,58 @@ class EmailFileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(EmailFile  $file)
     {
-        //
+        return view('admin.notify.email-file.edit',compact('file'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(EmailFileRequest $request, EmailFile $file)
     {
-        //
+        $fileService = new FileService();
+        $inputs = $request->all();
+        if($request->hasFile('file')){
+            if(!empty($file->file_path)){
+                $fileService->deleteFile($file->file_path);
+            }
+           $fileService->setExclusiveDirectory('files' . DIRECTORY_SEPARATOR . 'email-files');
+           $fileService->setFileSize($request->file('file'));
+           $fileSize = $fileService->getFileSize();
+           $result = $fileService->moveToPublic($request->file('file'));
+           // $result = $fileService->moveToStorage($request->file('file'));
+           $fileFormat = $fileService->getFileFormat();
+           $inputs['file_size'] = $fileSize;
+           $inputs['file_type'] = $fileFormat;
+           if($result===false){
+                return redirect()->route('admin.notify.email-file.index',$file->email->id)->with('swal-error',' ویرایش فایل با خطا مواجه گردید');
+           }
+        }
+        if(isset($result)){
+            $inputs['file_path'] = $result;
+        }
+        
+        $file->update($inputs);
+        return redirect()->route('admin.notify.email-file.index',$file->email->id)->with('swal-success',' فایل شما با موفقیت ویرایش گردید'); 
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+  
+    public function destroy(EmailFile $file)
     {
-        //
+        // dd($file);
+        $result = $file->delete();
+        return redirect()->route('admin.notify.email-file.index',$file->email->id)->with('swal-success', 'فایل شما با موفقیت حذف شد');
     }
-    public function status(EmailFile $emailFile){
-        $emailFile->status = $emailFile->status==0 ? 1 : 0;
-        $result = $emailFile->save();
+  
+    public function status(EmailFile $file){
+        $file->status = $file->status==0 ? 1 : 0;
+        $result = $file->save();
         if($result){
-            if($emailFile->status ==0 ){
+            if($file->status ==0 ){
                 return response()->json(['status'=>true,'checked'=>false]);
             }else{
                 return response()->json(['status'=>true,'checked'=>true]);
