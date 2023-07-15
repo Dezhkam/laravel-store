@@ -312,7 +312,7 @@ Route::prefix('admin')->namespace('Admin')->group(function(){
     //email file
     Route::prefix('email-file')->group(function(){
         Route::get('/{email}', [EmailFileController::class, 'index'])->name('admin.notify.email-file.index');
-        Route::get('/{email/}create', [EmailFileController::class, 'create'])->name('admin.notify.email-file.create');
+        Route::get('/{email}/create', [EmailFileController::class, 'create'])->name('admin.notify.email-file.create');
         Route::post('/{email}/store', [EmailFileController::class, 'store'])->name('admin.notify.email-file.store');
         Route::get('/edit/{file}', [EmailFileController::class, 'edit'])->name('admin.notify.email-file.edit');
         Route::put('/update/{file}', [EmailFileController::class, 'update'])->name('admin.notify.email-file.update');

@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin\Notify;
 
 use App\Models\Notify\Email;
 use Illuminate\Http\Request;
+use App\Models\Notify\EmailFile;
 use App\Http\Controllers\Controller;
+use App\Http\Services\File\FileService;
+use App\Http\Requests\Admin\Notify\EmailFileRequest;
 
 class EmailFileController extends Controller
 {
@@ -19,17 +22,36 @@ class EmailFileController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Email $email)
     {
-        //
+
+        return view('admin.notify.email-file.create',compact('email'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EmailFileRequest $request,Email $email)
     {
-        //
+         $fileService = new FileService();
+         $inputs = $request->all();
+         if($request->hasFile('file')){
+            $fileService->setExclusiveDirectory('files' . DIRECTORY_SEPARATOR . 'email-files');
+            $fileService->setFileSize($request->file('file'));
+            $fileSize = $fileService->getFileSize();
+            $result = $fileService->moveToPublic($request->file('file'));
+            // $result = $fileService->moveToStorage($request->file('file'));
+            $fileFormat = $fileService->getFileFormat();
+         }
+         if($result===false){
+            return redirect()->route('admin.notify.email-file.index',$email->id)->with('swal-error','آپلود فایل شما با موفقیت حذف گردید');
+         }
+         $inputs['public_mail_id'] = $email->id;
+         $inputs['file_path'] = $result;
+         $inputs['file_size'] = $fileSize;
+         $inputs['file_type'] = $fileFormat;
+         $file = EmailFile::create($inputs);
+         return redirect()->route('admin.notify.email-file.index',$email->id)->with('swal-success',' فایل جدید شما با موفقیت ثبت گردید');
     }
 
     /**
@@ -62,5 +84,18 @@ class EmailFileController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function status(EmailFile $emailFile){
+        $emailFile->status = $emailFile->status==0 ? 1 : 0;
+        $result = $emailFile->save();
+        if($result){
+            if($emailFile->status ==0 ){
+                return response()->json(['status'=>true,'checked'=>false]);
+            }else{
+                return response()->json(['status'=>true,'checked'=>true]);
+            }
+        }else{
+            return response()->json(['status'=>false]);
+        }
     }
 }
