@@ -97,6 +97,17 @@ return [
         ),
     ),
 
+    // Rasool Dezhkam Password Validation Messages
+
+    'password' => [
+        "mixed"           => ":attribute باید شامل حروف کوچک و بزرگ باشد",
+        "letters"           => ":attribute حتما باید شامل یک حرف باشد",
+        "symbols"           => ":attribute حتما باید شامل یک کاراکتر خاص باشد",
+        "uncompromised"           => ":attribute مناسب نیست",
+        "numbers"           => ":attribute حتما باید شامل عدد باشد",
+
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Attributes

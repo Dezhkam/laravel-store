@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin\User;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\User\AdminUserRequest;
 
 class AdminUserController extends Controller
 {
@@ -14,7 +16,8 @@ class AdminUserController extends Controller
      */
     public function index()
     {
-        return view('admin.user.admin-user.index');
+        $admins = User::where('user_type',1)->get();
+        return view('admin.user.admin-user.index',compact('admins'));
     }
 
     /**
@@ -34,9 +37,9 @@ class AdminUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdminUserRequest $request)
     {
-        //
+        dd('hi');
     }
 
     /**
