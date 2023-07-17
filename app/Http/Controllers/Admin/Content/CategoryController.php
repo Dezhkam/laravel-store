@@ -51,7 +51,7 @@ class CategoryController extends Controller
             $result = $imageService->createIndexAndSave($request->file('image'));
         }
         if($result===false){
-            return redirect()->route('admin.content.category.index')->with('swal-error','آپلود تصویر با خطا مواحه شد')->with('toast-success','دسته بندی شما با موفقیت ایجاد گردید');
+            return redirect()->route('admin.content.category.index')->with('swal-error','آپلود تصویر با خطا مواحه شد');
         }
         $inputs['image'] = $result;
         $postCategory =  PostCategory::create($inputs);

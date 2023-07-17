@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin\User;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Services\Image\ImageService;
 use App\Http\Requests\Admin\User\AdminUserRequest;
 
 class AdminUserController extends Controller
@@ -39,7 +41,20 @@ class AdminUserController extends Controller
      */
     public function store(AdminUserRequest $request)
     {
-        dd('hi');
+        $inputs = $request->all();
+        if($request->hasFile('profile_photo_path')){
+            $imageService = new ImageService();
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'users');
+            $result = $imageService->save($request->file('profile_photo_path'));
+            if($result===false){
+                return redirect()->route('admin.user.admin-user.index')->with('swal-error','آپلود تصویر با خطا مواحه شد');
+            }
+            $inputs['profile_photo_path'] = $result;
+        }        
+        $inputs['password'] = Hash::make($request->password);
+        $inputs['user_type'] =1 ;
+        $user =  User::create($inputs);
+        return redirect()->route('admin.user.admin-user.index')->with('swal-success',' ادمین جدید با موفقیت ایجاد گردید');
     }
 
     /**
@@ -85,5 +100,31 @@ class AdminUserController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function status(User $user){
+        $user->status = $user->status==0 ? 1 : 0;
+        $result = $user->save();
+        if($result){
+            if($user->status ==0 ){
+                return response()->json(['status'=>true,'checked'=>false]);
+            }else{
+                return response()->json(['status'=>true,'checked'=>true]);
+            }
+        }else{
+            return response()->json(['status'=>false]);
+        }
+    }
+    public function activation(User $user){
+        $user->activation = $user->activation==0 ? 1 : 0;
+        $result = $user->save();
+        if($result){
+            if($user->activation ==0 ){
+                return response()->json(['status'=>true,'checked'=>false]);
+            }else{
+                return response()->json(['status'=>true,'checked'=>true]);
+            }
+        }else{
+            return response()->json(['status'=>false]);
+        }
     }
 }
