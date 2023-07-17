@@ -39,11 +39,10 @@ class AdminUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AdminUserRequest $request)
+    public function store(AdminUserRequest $request, ImageService $imageService)
     {
         $inputs = $request->all();
         if($request->hasFile('profile_photo_path')){
-            $imageService = new ImageService();
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'users');
             $result = $imageService->save($request->file('profile_photo_path'));
             if($result===false){
