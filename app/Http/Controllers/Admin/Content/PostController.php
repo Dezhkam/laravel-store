@@ -90,14 +90,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PostRequest $request, Post $post)
+    public function update(PostRequest $request, Post $post, ImageService $imageService)
     {
         $inputs = $request->all();
         // date fixed
         $realTimestampsStart = substr($request->published_at,0,10);
         $inputs['published_at'] = Date("Y-m-d H:i:s",(int)$realTimestampsStart);
         if($request->hasFile('image')){
-            $imageService = new ImageService();
              if(!empty($post->image)){
                 $imageService->deleteDirectoryAndFiles($post->image['directory']);
             }

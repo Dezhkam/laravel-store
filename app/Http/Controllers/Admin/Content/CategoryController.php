@@ -87,11 +87,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PostCategoryRequest $request, PostCategory $postCategory)
+    public function update(PostCategoryRequest $request, PostCategory $postCategory, ImageService $imageService)
     {
         $inputs = $request->all();
         if($request->hasFile('image')){
-            $imageService = new ImageService();
              if(!empty($postCategory->image)){
                 $imageService->deleteDirectoryAndFiles($postCategory->image['directory']);
             }
