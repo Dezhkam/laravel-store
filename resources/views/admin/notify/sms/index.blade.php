@@ -62,7 +62,7 @@
                                 <a href="{{ route('admin.notify.sms.edit', $single_sms->id) }}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
                                 <form class="d-inline" action="{{ route('admin.notify.sms.destroy', $single_sms->id) }}" method="post">
                                     @csrf
-                                    @method("DELETE")
+                                    {{ method_field('delete') }}
                                 <button class="btn btn-danger btn-sm delete" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
                             </form>                            </td>
                         </tr>

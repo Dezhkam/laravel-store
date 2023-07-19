@@ -102,7 +102,7 @@
 
 
 
-                        <section class="col-12 mt-2">
+                        <section class="col-12">
                             <button class="btn btn-primary btn-sm">ثبت</button>
                         </section>
                     </section>

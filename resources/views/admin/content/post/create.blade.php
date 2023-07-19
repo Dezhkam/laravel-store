@@ -38,15 +38,15 @@
                         <section class="col-12 col-md-6">
                             <div class="form-group">
                                 <label for="">عنوان پست</label>
-                                <input type="text" name="title" value="{{ old('title') }}" class="form-control form-control-sm">
+                                <input type="text" class="form-control form-control-sm" name="title" value="{{ old('title') }}">
                             </div>
                             @error('title')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                            @enderror
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                        @enderror
                         </section>
 
                         <section class="col-12 col-md-6">
@@ -55,33 +55,32 @@
                                 <select name="category_id" id="" class="form-control form-control-sm">
                                     <option value="">دسته را انتخاب کنید</option>
                                     @foreach ($postCategories as $postCategory)
-                                        <option value="{{ $postCategory->id }}" @if ($postCategory->id == old('category_id'))
-                                            selected
-                                        @endif>{{ $postCategory->name }}</option>
+                                    <option value="{{ $postCategory->id }}" @if(old('category_id') == $postCategory->id) selected @endif>{{ $postCategory->name }}</option>
                                     @endforeach
+
                                 </select>
                             </div>
                             @error('category_id')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                            @enderror
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                        @enderror
                         </section>
 
                         <section class="col-12 col-md-6">
                             <div class="form-group">
-                                <label for=" ">تصویر </label>
-                                <input name="image" type="file" class="form-control form-control-sm">
+                                <label for="">تصویر </label>
+                                <input type="file" name="image" class="form-control form-control-sm">
                             </div>
                             @error('image')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                            @enderror
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                        @enderror
                         </section>
 
                         <section class="col-12 col-md-6">
@@ -101,6 +100,7 @@
                         @enderror
                         </section>
 
+
                         <section class="col-12 col-md-6">
                             <div class="form-group">
                                 <label for="commentable">امکان درج کامنت</label>
@@ -118,21 +118,21 @@
                         @enderror
                         </section>
 
-                        
+
 
                         <section class="col-12 col-md-6">
                             <div class="form-group">
                                 <label for="">تاریخ انتشار</label>
-                                <input id="published_at" name="published_at" type="text" class="form-control form-control-sm d-none">
-                                <input id="published_at_view" type="text" class="form-control form-control-sm">
+                                <input type="text" name="published_at" id="published_at" class="form-control form-control-sm d-none">
+                                <input type="text" id="published_at_view" class="form-control form-control-sm">
                             </div>
                             @error('published_at')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                            @enderror
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                        @enderror
                         </section>
 
                         <section class="col-12">
@@ -140,6 +140,7 @@
                                 <label for="tags">تگ ها</label>
                                 <input type="hidden" class="form-control form-control-sm"  name="tags" id="tags" value="{{ old('tags') }}">
                                 <select class="select2 form-control form-control-sm" id="select_tags" multiple>
+
                                 </select>
                             </div>
                             @error('tags')
@@ -157,12 +158,12 @@
                                 <textarea name="summary" id="summary"  class="form-control form-control-sm" rows="6">{{ old('summary') }}</textarea>
                             </div>
                             @error('summary')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                            @enderror
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                        @enderror
                         </section>
 
                         <section class="col-12">
@@ -171,12 +172,12 @@
                                 <textarea name="body" id="body"  class="form-control form-control-sm" rows="6">{{ old('body') }}</textarea>
                             </div>
                             @error('body')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                            @enderror
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                        @enderror
                         </section>
 
                         <section class="col-12">
@@ -201,40 +202,43 @@
         CKEDITOR.replace('body');
         CKEDITOR.replace('summary');
     </script>
-    <script>
-        $(document).ready(function(){
-            $('#published_at_view').persianDatepicker({
-                format: 'YYYY/MM/DD',
-                altField: '#published_at'
-            })
-        });
-    </script>
-    <script>
-        $(document).ready(function () {
-            var tags_input = $('#tags');
-            var select_tags = $('#select_tags');
-            var default_tags = tags_input.val();
-            var default_data = null;
 
-            if(tags_input.val() !== null && tags_input.val().length > 0)
-            {
-                default_data = default_tags.split(',');
-            }
-
-            select_tags.select2({
-                placeholder : 'لطفا تگ های خود را وارد نمایید',
-                tags: true,
-                data: default_data
+    <script>
+            $(document).ready(function () {
+                $('#published_at_view').persianDatepicker({
+                    format: 'YYYY/MM/DD',
+                    altField: '#published_at'
+                })
             });
-            select_tags.children('option').attr('selected', true).trigger('change');
-
-
-            $('#form').submit(function ( event ){
-                if(select_tags.val() !== null && select_tags.val().length > 0){
-                    var selectedSource = select_tags.val().join(',');
-                    tags_input.val(selectedSource)
-                }
-            })
-        })
     </script>
+
+<script>
+    $(document).ready(function () {
+        var tags_input = $('#tags');
+        var select_tags = $('#select_tags');
+        var default_tags = tags_input.val();
+        var default_data = null;
+
+        if(tags_input.val() !== null && tags_input.val().length > 0)
+        {
+            default_data = default_tags.split(',');
+        }
+
+        select_tags.select2({
+            placeholder : 'لطفا تگ های خود را وارد نمایید',
+            tags: true,
+            data: default_data
+        });
+        select_tags.children('option').attr('selected', true).trigger('change');
+
+
+        $('#form').submit(function ( event ){
+            if(select_tags.val() !== null && select_tags.val().length > 0){
+                var selectedSource = select_tags.val().join(',');
+                tags_input.val(selectedSource)
+            }
+        })
+    })
+</script>
+
 @endsection

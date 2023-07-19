@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-<title>سوالات متداول</title>
+<title> سوالات متداول</title>
 @endsection
 
 @section('content')
@@ -32,19 +32,22 @@
             <section>
                 <form action="{{ route('admin.content.faq.store') }}" method="post" id="form">
                     @csrf
+
                     <section class="row">
+
                         <section class="col-12">
                             <div class="form-group">
                                 <label for="">پرسش</label>
-                                <input type="text" class="form-control form-control-sm" name="question" id="question" value="{{ old('question') }}">
+                                <input type="text" class="form-control form-control-sm" name="question" id="name" value="{{ old('question') }}">
+
                             </div>
                             @error('question')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                            @enderror
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                        @enderror
                         </section>
 
                         <section class="col-12">
@@ -53,15 +56,15 @@
                                 <textarea name="answer" id="answer"  class="form-control form-control-sm" rows="6">{{ old('answer') }}</textarea>
                             </div>
                             @error('answer')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                            @enderror
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                        @enderror
                         </section>
 
-                        <section class="col-12 my-2">
+                        <section class="col-12">
                             <div class="form-group">
                                 <label for="tags">تگ ها</label>
                                 <input type="hidden" class="form-control form-control-sm"  name="tags" id="tags" value="{{ old('tags') }}">
@@ -70,12 +73,12 @@
                                 </select>
                             </div>
                             @error('tags')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                            @enderror
+                            <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                        @enderror
                         </section>
 
                         <section class="col-12">
@@ -95,6 +98,8 @@
                         @enderror
                         </section>
 
+
+
                         <section class="col-12">
                             <button class="btn btn-primary btn-sm">ثبت</button>
                         </section>
@@ -113,6 +118,8 @@
     <script>
         CKEDITOR.replace('answer');
     </script>
+
+
 <script>
     $(document).ready(function () {
         var tags_input = $('#tags');
@@ -141,4 +148,5 @@
         })
     })
 </script>
+
 @endsection

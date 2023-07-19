@@ -48,37 +48,37 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($comments as $key => $comment)
-                            <tr>
-                                <th>{{ $key+=1 }}</th>
-                                <td>{{ Str::limit($comment->body,10) }}</td>
-                                <td>{{ $comment->parent_id ? Str::limit($comment->parent->body, 10) : ''  }}</td>
-                                <td>{{ $comment->author_id }}</td>
-                                <td>{{ $comment->user->fullName  }}</td>
-                                <td>{{ $comment->commentable_id }}</td>
-                                <td>{{ $comment->commentable->title }}</td>
-                                <td>{{ $comment->approved==1 ? 'تایید شده' :'تاییدنشده' }}</td>
-                                <td>
-                                    <label>
-                                        <input id="{{ $comment->id }}"
-                                            onchange="changeStatus({{ $comment->id }})" type="checkbox"
-                                            data-url="{{ route('admin.content.comment.status', $comment->id) }}"
-                                            @if ($comment->status === 1) checked @endif>
-                                    </label>
-                                </td>
-                                
-                                <td class="width-16-rem text-left">
-                                    <a href="{{ route('admin.content.comment.show',$comment->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> نمایش</a>
-                                    @if ($comment->approved==1)
-                                        <a href="{{ route('admin.content.comment.approved', $comment->id) }}" 
-                                        class="btn btn-warning btn-sm" ><i class="fa fa-check"></i>عدم تایید</button>    
-                                    @else
-                                        <a href="{{ route('admin.content.comment.approved', $comment->id) }}" 
-                                        class="btn btn-success btn-sm text-white" ><i class="fa fa-check"></i>تایید</button>    
-                                    @endif
-                                </td>
-                            </tr>
+                      @foreach ($comments as $key => $comment)
+
+                        <tr>
+                            <th>{{ $key + 1 }}</th>
+                            <td>{{ Str::limit($comment->body, 10) }}</td>
+                            <td>{{ $comment->parent_id ? Str::limit($comment->parent->body, 10) : '' }}</td>
+                            <td>{{ $comment->author_id }}</td>
+                            <td>{{ $comment->user->fullName  }}</td>
+                            <td>{{ $comment->commentable_id }}</td>
+                            <td>{{ $comment->commentable->title }}</td>
+                            <td>{{ $comment->approved == 1 ? 'تایید شده ' : 'تایید نشده'}} </td>
+                            <td>
+                                <label>
+                                    <input id="{{ $comment->id }}" onchange="changeStatus({{ $comment->id }})" data-url="{{ route('admin.content.comment.status', $comment->id) }}" type="checkbox" @if ($comment->status === 1)
+                                    checked
+                                    @endif>
+                                </label>
+                            </td>
+                            <td class="width-16-rem text-left">
+                                <a href="{{ route('admin.content.comment.show', $comment->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> نمایش</a>
+
+                                @if($comment->approved == 1)
+                                <a href="{{ route('admin.content.comment.approved', $comment->id)}} "class="btn btn-warning btn-sm" type="submit"><i class="fa fa-clock"></i> عدم تایید</a>
+                                @else
+                                <a href="{{ route('admin.content.comment.approved', $comment->id)}}" class="btn btn-success btn-sm text-white" type="submit"><i class="fa fa-check"></i>تایید</a>
+                                @endif
+                            </td>
+
+                        </tr>
                         @endforeach
+
                     </tbody>
                 </table>
             </section>
@@ -88,69 +88,76 @@
 </section>
 
 @endsection
+
 @section('script')
+
     <script type="text/javascript">
-        function changeStatus(id) {
+        function changeStatus(id){
             var element = $("#" + id)
             var url = element.attr('data-url')
             var elementValue = !element.prop('checked');
 
             $.ajax({
-                url: url,
-                type: "GET",
-                success: function(response) {
-                    if (response.status) {
-                        if (response.checked) {
+                url : url,
+                type : "GET",
+                success : function(response){
+                    if(response.status){
+                        if(response.checked){
                             element.prop('checked', true);
-                            successToast('نظر با موفقیت فعال شد');
-                        } else {
-                            element.prop('checked', false);
-                            successToast('نظر با موفقیت غیر فعال شد');
+                            successToast('نظر  با موفقیت فعال شد')
                         }
-                    } else {
+                        else{
+                            element.prop('checked', false);
+                            successToast('نظر  با موفقیت غیر فعال شد')
+                        }
+                    }
+                    else{
                         element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی به وجود آمده است');
+                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
                     }
                 },
-                error: function() {
-                    errorToast('ارتباط برقرار نشد');
-
+                error : function(){
+                    element.prop('checked', elementValue);
+                    errorToast('ارتباط برقرار نشد')
                 }
             });
 
-            function successToast(message) {
-                var successToastTag = '<section class="toast" data-delay="5000" >\n' +
+            function successToast(message){
+
+                var successToastTag = '<section class="toast" data-delay="5000">\n' +
                     '<section class="toast-body py-3 d-flex bg-success text-white">\n' +
-                    '<strong class="ml-auto">' + message + '</strong>\n' +
-                    '</section>\n' +
-                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close" >\n' +
-                    '<span aria-hidden="true">&times;</span>\n' +
-                    '</button>\n' +
-                    '</section>\n' +
-                    '</section>';
-                $('.toast-wrapper').append(successToastTag);
-                $('.toast').toast('show').delay(5500).queue(function() {
-                    $(this).remove();
-                })
+                        '<strong class="ml-auto">' + message + '</strong>\n' +
+                        '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                            '<span aria-hidden="true">&times;</span>\n' +
+                            '</button>\n' +
+                            '</section>\n' +
+                            '</section>';
+
+                            $('.toast-wrapper').append(successToastTag);
+                            $('.toast').toast('show').delay(5500).queue(function() {
+                                $(this).remove();
+                            })
             }
 
-            function errorToast(message) {
-                var errorToastTag = '<section class="toast" data-delay="5000" >\n' +
+            function errorToast(message){
+
+                var errorToastTag = '<section class="toast" data-delay="5000">\n' +
                     '<section class="toast-body py-3 d-flex bg-danger text-white">\n' +
-                    '<strong class="ml-auto">' + message + '</strong>\n' +
-                    '</section>\n' +
-                    '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close" >\n' +
-                    '<span aria-hidden="true">&times;</span>\n' +
-                    '</button>\n' +
-                    '</section>\n' +
-                    '</section>';
-                $('.toast-wrapper').append(errorToastTag);
-                $('.toast').toast('show').delay(5500).queue(function() {
-                    $(this).remove();
-                })
+                        '<strong class="ml-auto">' + message + '</strong>\n' +
+                        '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                            '<span aria-hidden="true">&times;</span>\n' +
+                            '</button>\n' +
+                            '</section>\n' +
+                            '</section>';
+
+                            $('.toast-wrapper').append(errorToastTag);
+                            $('.toast').toast('show').delay(5500).queue(function() {
+                                $(this).remove();
+                            })
             }
         }
     </script>
-    
+
+
 @endsection
 

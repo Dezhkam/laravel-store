@@ -5,6 +5,8 @@
 @endsection
 
 @section('content')
+
+
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item font-size-12"> <a href="#">خانه</a></li>
@@ -32,7 +34,7 @@
                     <form action="{{ route('admin.content.category.update', $postCategory->id) }}" method="post"
                         enctype="multipart/form-data" id="form">
                         @csrf
-                        @method("PUT")
+                        {{ method_field('put') }}
                         <section class="row">
 
                             <section class="col-12 col-md-6 my-2">
@@ -71,12 +73,9 @@
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
                                     <label for="status">وضعیت</label>
-                                    <select name="status" id="" class="form-control form-control-sm"
-                                        id="status">
-                                        <option value="0" @if (old('status', $postCategory->status) == 0) selected @endif>غیرفعال
-                                        </option>
-                                        <option value="1" @if (old('status', $postCategory->status) == 1) selected @endif>فعال
-                                        </option>
+                                    <select name="status" id="" class="form-control form-control-sm" id="status">
+                                        <option value="0" @if (old('status', $postCategory->status) == 0) selected @endif>غیرفعال</option>
+                                        <option value="1" @if (old('status', $postCategory->status) == 1) selected @endif>فعال</option>
                                     </select>
                                 </div>
                                 @error('status')
@@ -91,8 +90,7 @@
                             <section class="col-12 col-md-6 my-2">
                                 <div class="form-group">
                                     <label for="image">تصویر</label>
-                                    <input type="file" class="form-control form-control-sm" name="image"
-                                        id="image">
+                                    <input type="file" class="form-control form-control-sm" name="image" id="image">
                                 </div>
                                 @error('image')
                                     <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
@@ -102,60 +100,63 @@
                                     </span>
                                 @enderror
                             </section>
-                            <section class="row">
-                                @php
-                                    $number = 1;
-                                @endphp
 
-                                @foreach ($postCategory->image['indexArray'] as $key => $value)
+                                <section class="row">
+                                    @php
+                                        $number = 1;
+                                        @endphp
+                                    @foreach ($postCategory->image['indexArray'] as $key => $value )
                                     <section class="col-md-{{ 6 / $number }}">
                                         <div class="form-check">
-                                            <input type="radio" name="currentImage" id="{{ $number }}"
-                                                value="{{ $key }}" class="form-check-input"
-                                                @if ($postCategory->image['currentImage'] == $key) checked @endif>
-                                            <label for="" class="form-check-label mx-2">
+                                            <input type="radio" class="form-check-input" name="currentImage" value="{{ $key }}" id="{{ $number }}" @if($postCategory->image['currentImage'] == $key) checked @endif>
+                                            <label for="{{ $number }}" class="form-check-label mx-2">
                                                 <img src="{{ asset($value) }}" class="w-100" alt="">
                                             </label>
                                         </div>
-
                                     </section>
                                     @php
-                                        $number++;
-                                    @endphp
-                                @endforeach
+                                    $number++;
+                                @endphp
+                                    @endforeach
+
+                                </section>
 
                             </section>
-                        </section>
-                        <section class="col-12">
-                            <div class="form-group">
-                                <label for="">توضیحات</label>
-                                <textarea name="description" id="description" class="form-control form-control-sm" rows="6">
-                                    {{ old('description', $postCategory->description) }}
-                                </textarea>
-                            </div>
-                            @error('description')
-                                <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                            @enderror
-                        </section>
 
 
-                        <section class="col-12 my-3">
-                            <button class="btn btn-primary btn-sm">ثبت</button>
+                            <section class="col-12">
+                                <div class="form-group">
+                                    <label for="">توضیحات</label>
+                                    <textarea name="description" id="description" class="form-control form-control-sm"
+                                        rows="6">
+                                        {{ old('description', $postCategory->description) }}
+                                    </textarea>
+                                </div>
+                                @error('description')
+                                    <span class="alert_required bg-danger text-white p-1 rounded" role="alert">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
+                            </section>
+
+
+                            <section class="col-12 my-3">
+                                <button class="btn btn-primary btn-sm">ثبت</button>
+                            </section>
                         </section>
+                    </form>
                 </section>
-                </form>
-            </section>
 
+            </section>
         </section>
     </section>
-    </section>
+
 @endsection
 
 @section('script')
+
     <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
     <script>
         CKEDITOR.replace('description');
@@ -187,4 +188,5 @@
             })
         })
     </script>
+
 @endsection

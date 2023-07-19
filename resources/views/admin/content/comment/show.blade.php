@@ -27,7 +27,7 @@
 
             <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
                 <a href="{{ route('admin.content.comment.index') }}" class="btn btn-info btn-sm">بازگشت</a>
-            </section> 
+            </section>
 
             <section class="card mb-3">
                 <section class="card-header text-white bg-custom-yellow">
@@ -55,9 +55,9 @@
                                     {{ $message }}
                                 </strong>
                             </span>
-                        @enderror 
+                        @enderror
                         </section>
-                        <section class="col-12 mt-2">
+                        <section class="col-12">
                             <button class="btn btn-primary btn-sm">ثبت</button>
                         </section>
                     </section>

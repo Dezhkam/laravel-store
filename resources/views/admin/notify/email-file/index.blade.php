@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-<title>فایل های اطلاعیه ایمیلی</title>
+<title>فایل های اطلاعیه ایمیلی </title>
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item font-size-12"> <a href="#">خانه</a></li>
       <li class="breadcrumb-item font-size-12"> <a href="#">اطلاع رسانی</a></li>
-      <li class="breadcrumb-item font-size-12 " aria-current="page"> اطلاعیه ایمیلی</li>
+      <li class="breadcrumb-item font-size-12"> <a href="#"> اطلاعیه ایمیلی</a></li>
       <li class="breadcrumb-item font-size-12 active" aria-current="page"> فایل های اطلاعیه ایمیلی</li>
     </ol>
   </nav>
@@ -21,12 +21,12 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                   فایل های اطلاعیه ایمیلی
+                   فایل اطلاعیه ایمیلی
                 </h5>
             </section>
 
             <section class="d-flex justify-content-between align-items-center mt-4 mb-3 border-bottom pb-2">
-                <a href="{{ route('admin.notify.email-file.create',$email->id) }}" class="btn btn-info btn-sm">ایجاد فایل اطلاعیه ایمیلی</a>
+                <a href="{{ route('admin.notify.email-file.create', $email->id) }}" class="btn btn-info btn-sm">ایجاد فایل اطلاعیه ایمیلی</a>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -97,11 +97,11 @@
                     if(response.status){
                         if(response.checked){
                             element.prop('checked', true);
-                            successToast('فایل ایمیل  با موفقیت فعال شد')
+                            successToast('فایل با موفقیت فعال شد')
                         }
                         else{
                             element.prop('checked', false);
-                            successToast('فایل ایمیل  با موفقیت غیر فعال شد')
+                            successToast('فایل با موفقیت غیر فعال شد')
                         }
                     }
                     else{
@@ -156,4 +156,3 @@
 
 
 @endsection
-

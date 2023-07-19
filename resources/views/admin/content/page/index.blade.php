@@ -9,7 +9,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item font-size-12"> <a href="#">خانه</a></li>
-      <li class="breadcrumb-item font-size-12"> <a href="#">بخش محتوی</a></li>
+      <li class="breadcrumb-item font-size-12"> <a href="#">بخش محتوا</a></li>
       <li class="breadcrumb-item font-size-12 active" aria-current="page"> پیج ساز</li>
     </ol>
   </nav>
@@ -39,36 +39,35 @@
                             <th>عنوان </th>
                             <th>تگ ها</th>
                             <th>اسلاگ</th>
-                            <th>وضعیت</th>                            <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
-                        </tr> 
+                            <th>وضعیت</th>
+                            <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
+                        </tr>
                     </thead>
                     <tbody>
                         @foreach ($pages as $key => $page)
-                            <tr>
-                                <th>{{ $key+=1 }}</th>
-                                <td>{{ $page->title }}</td>
-                                <td>{{ $page->tags }}</td>
-                                <td>{{ $page->slug }}</td>
-                                <td>
-                                    <label>
-                                        <input id="{{ $page->id }}" onchange="changeStatus({{ $page->id }})" type="checkbox" data-url="{{ route('admin.content.page.status',$page->id) }}" @if ($page->status === 1)
-                                        checked
-                                        @endif>
-                                    </label>
-                                </td>
-                                <td class="width-16-rem text-left">
-                                    <a href="{{ route('admin.content.page.edit',$page->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
-                                    <form class="d-inline"
-                                            action="{{ route('admin.content.page.destroy', $page->id) }}"
-                                            method="post">
-                                            @csrf
-                                            @method("DELETE")
-                                            <button class="btn btn-danger btn-sm delete" type="submit"><i
-                                                    class="fa fa-trash-alt"></i> حذف</button>
-                                        </form>
-                                </td>
-                            </tr>  
+                        <tr>
+                            <th>{{ $key + 1 }}</th>
+                            <td>{{ $page->title }}</td>
+                            <td>{{ $page->tags }}</td>
+                            <td>{{ $page->slug }}</td>
+                            <td>
+                                <label>
+                                    <input id="{{ $page->id }}" onchange="changeStatus({{ $page->id }})" data-url="{{ route('admin.content.page.status', $page->id) }}" type="checkbox" @if ($page->status === 1)
+                                    checked
+                                    @endif>
+                                </label>
+                            </td>
+                            <td class="width-16-rem text-left">
+                                <a href="{{ route('admin.content.page.edit', $page->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                <form class="d-inline" action="{{ route('admin.content.page.destroy', $page->id) }}" method="post">
+                                    @csrf
+                                    {{ method_field('delete') }}
+                                <button class="btn btn-danger btn-sm delete" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
+                            </form>                            </td>
+                        </tr>
                         @endforeach
+
+
                     </tbody>
                 </table>
             </section>
@@ -78,6 +77,7 @@
 </section>
 
 @endsection
+
 @section('script')
 
     <script type="text/javascript">
@@ -93,55 +93,62 @@
                     if(response.status){
                         if(response.checked){
                             element.prop('checked', true);
-                            successToast('صفحه با موفقیت فعال شد');
+                            successToast('صفحه  با موفقیت فعال شد')
                         }
                         else{
                             element.prop('checked', false);
-                            successToast('صفحه با موفقیت غیر فعال شد');
+                            successToast('صفحه  با موفقیت غیر فعال شد')
                         }
                     }
                     else{
                         element.prop('checked', elementValue);
-                        errorToast('هنگام ویرایش مشکلی به وجود آمده است');
+                        errorToast('هنگام ویرایش مشکلی بوجود امده است')
                     }
                 },
-                error: function(){
-                    errorToast('ارتباط برقرار نشد');
-
+                error : function(){
+                    element.prop('checked', elementValue);
+                    errorToast('ارتباط برقرار نشد')
                 }
             });
+
             function successToast(message){
-                var successToastTag = '<section class="toast" data-delay="5000" >\n' +
-                '<section class="toast-body py-3 d-flex bg-success text-white">\n' +
-                '<strong class="ml-auto">' + message + '</strong>\n' +
-                '</section>\n' +
-                '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close" >\n' + 
-                '<span aria-hidden="true">&times;</span>\n' +
-                '</button>\n' +
-                '</section>\n' +
-                '</section>';
-                $('.toast-wrapper').append(successToastTag);
-                $('.toast').toast('show').delay(5500).queue(function(){
-                    $(this).remove();
-                })
+
+                var successToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-success text-white">\n' +
+                        '<strong class="ml-auto">' + message + '</strong>\n' +
+                        '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                            '<span aria-hidden="true">&times;</span>\n' +
+                            '</button>\n' +
+                            '</section>\n' +
+                            '</section>';
+
+                            $('.toast-wrapper').append(successToastTag);
+                            $('.toast').toast('show').delay(5500).queue(function() {
+                                $(this).remove();
+                            })
             }
+
             function errorToast(message){
-                var errorToastTag = '<section class="toast" data-delay="5000" >\n' +
-                '<section class="toast-body py-3 d-flex bg-danger text-white">\n' +
-                '<strong class="ml-auto">' + message + '</strong>\n' +
-                '</section>\n' +
-                '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close" >\n' + 
-                '<span aria-hidden="true">&times;</span>\n' +
-                '</button>\n' +
-                '</section>\n' +
-                '</section>';
-                $('.toast-wrapper').append(errorToastTag);
-                $('.toast').toast('show').delay(5500).queue(function(){
-                    $(this).remove();
-                })
+
+                var errorToastTag = '<section class="toast" data-delay="5000">\n' +
+                    '<section class="toast-body py-3 d-flex bg-danger text-white">\n' +
+                        '<strong class="ml-auto">' + message + '</strong>\n' +
+                        '<button type="button" class="mr-2 close" data-dismiss="toast" aria-label="Close">\n' +
+                            '<span aria-hidden="true">&times;</span>\n' +
+                            '</button>\n' +
+                            '</section>\n' +
+                            '</section>';
+
+                            $('.toast-wrapper').append(errorToastTag);
+                            $('.toast').toast('show').delay(5500).queue(function() {
+                                $(this).remove();
+                            })
             }
         }
     </script>
-@include('admin.alerts.sweetalert.delete-confirm',['className'=> 'delete'])
+
+
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+
 
 @endsection
