@@ -91,9 +91,10 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::get('/', [DeliveryController::class, 'index'])->name('admin.market.delivery.index');
             Route::get('/create', [DeliveryController::class, 'create'])->name('admin.market.delivery.create');
             Route::post('/store', [DeliveryController::class, 'store'])->name('admin.market.delivery.store');
-            Route::get('/edit/{id}', [DeliveryController::class, 'edit'])->name('admin.market.delivery.edit');
-            Route::put('/update/{id}', [DeliveryController::class, 'update'])->name('admin.market.delivery.update');
-            Route::delete('/destroy/{id}', [DeliveryController::class, 'destroy'])->name('admin.market.delivery.destroy');
+            Route::get('/edit/{delivery}', [DeliveryController::class, 'edit'])->name('admin.market.delivery.edit');
+            Route::put('/update/{delivery}', [DeliveryController::class, 'update'])->name('admin.market.delivery.update');
+            Route::delete('/destroy/{delivery}', [DeliveryController::class, 'destroy'])->name('admin.market.delivery.destroy');
+            Route::get('/status/{delivery}', [DeliveryController::class, 'status'])->name('admin.market.delivery.status');
         });
 
         //discount
@@ -269,7 +270,6 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::delete('/destroy/{role}', [RoleController::class, 'destroy'])->name('admin.user.role.destroy');
             Route::get('/permission-form/{role}', [RoleController::class, 'permissionForm'])->name('admin.user.role.permission-form');
             Route::put('/permission-update/{role}', [RoleController::class, 'permissionUpdate'])->name('admin.user.role.permission-update');
-
         });
 
         //permission
