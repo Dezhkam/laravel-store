@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin\Market;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Market\ProductCategory;
+use App\Http\Services\Image\ImageService;
+use App\Http\Requests\Admin\Market\ProductCategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -14,7 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.market.category.index');
+        $productCategories = ProductCategory::orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('admin.market.category.index',compact('productCategories'));
     }
 
     /**
@@ -24,7 +28,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.market.category.create');
+        $categories = ProductCategory::where('parent_id',null)->get();
+        return view('admin.market.category.create',compact('categories'));
     }
 
     /**
@@ -33,9 +38,19 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductCategoryRequest $request,ImageService $imageService)
     {
-        //
+        $inputs = $request->all();
+        if($request->hasFile('image')){
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product-category');
+            $result = $imageService->createIndexAndSave($request->file('image'));
+        }
+        if($result===false){
+            return redirect()->route('admin.market.category.index')->with('swal-error','آپلود تصویر با خطا مواحه شد');
+        }
+        $inputs['image'] = $result;
+        $productCategory =  ProductCategory::create($inputs);
+        return redirect()->route('admin.market.category.index')->with('swal-success','دسته بندی شما با موفقیت ایجاد گردید');
     }
 
     /**
@@ -55,9 +70,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(ProductCategory $productCategory)
     {
-        //
+        $product_categories = ProductCategory::where('parent_id',null)->get()->except($productCategory->id);
+
+        return view('admin.market.category.edit',compact('productCategory','product_categories'));
     }
 
     /**
@@ -67,9 +84,29 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductCategoryRequest $request, ProductCategory $productCategory, ImageService $imageService)
     {
-        //
+        $inputs = $request->all();
+        if($request->hasFile('image')){
+             if(!empty($productCategory->image)){
+                $imageService->deleteDirectoryAndFiles($productCategory->image['directory']);
+            }
+            
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-category');
+            $result = $imageService->createIndexAndSave($request->file('image'));
+            if($result===false){
+                return redirect()->route('admin.market.category.index')->with('swal-error','آپلود تصویر با خطا مواحه شد');
+            }
+            $inputs['image'] = $result;
+        }else{
+            if(isset($inputs['currentImage']) && !empty($productCategory->image)){
+                $image = $productCategory->image;
+                $image['currentImage'] = $inputs['currentImage'];
+                $inputs['image'] = $image;
+            }
+        }
+        $postCategory =  $productCategory->update($inputs);
+        return redirect()->route('admin.market.category.index')->with('swal-success','دسته بندی شما با موفقیت ویرایش گردید');
     }
 
     /**
@@ -78,8 +115,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ProductCategory $productCategory)
     {
-        //
+       $result = $productCategory->delete();
+       return redirect()->route('admin.market.category.index')->with('swal-success','دسته بندی شما با موفقیت حذف گردید');
     }
 }

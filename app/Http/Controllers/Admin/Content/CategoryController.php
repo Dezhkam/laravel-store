@@ -40,11 +40,10 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostCategoryRequest $request)
+    public function store(PostCategoryRequest $request,ImageService $imageService)
     {
         $inputs = $request->all();
         if($request->hasFile('image')){
-            $imageService = new ImageService();
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-category');
             // $result = $imageService->save($request->file('image'));
             // $result = $imageService->fitAndSave($request->file('image'));
