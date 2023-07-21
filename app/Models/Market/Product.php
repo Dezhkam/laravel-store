@@ -3,6 +3,7 @@
 namespace App\Models\Market;
 
 use App\Models\Market\Brand;
+use App\Models\Market\ProductMeta;
 use App\Models\Market\ProductCategory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -32,4 +33,8 @@ class Product extends Model
     public function brand(){
         return $this->belongsTo(Brand::class,'brand_id');
     } 
+
+    public function metas(){
+        return $this->hasMany(ProductMeta::class);
+    }
 }
