@@ -190,5 +190,8 @@ return [
         'height'                    => 'ارتفاع',
         'price'                     => 'قیمت',
         'introduction'              => 'توضیحات',
+        'color_name'                =>  'نام رنگ',
+        'price_increase'            => 'افزایش قیمت',
+        'unit'                      => 'واحد اندازه گیری',
     ],
 ];
