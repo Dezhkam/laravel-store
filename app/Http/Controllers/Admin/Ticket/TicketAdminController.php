@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\Ticket;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Models\Ticket\TicketAdmin;
 use App\Http\Controllers\Controller;
 

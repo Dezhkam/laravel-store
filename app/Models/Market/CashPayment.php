@@ -6,7 +6,7 @@ use App\Models\Market\Payment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class OfflinePayment extends Model
+class CashPayment extends Model
 {
     use HasFactory;
 
