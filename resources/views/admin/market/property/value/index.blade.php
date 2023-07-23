@@ -41,7 +41,7 @@
                             <th>مقدار</th>
                             <th>افزایش قیمت</th>
                             <th>نوع</th>
-                            
+
                             <th class="max-width-16-rem text-center"><i class="fa fa-cogs"></i> تنظیمات</th>
                         </tr>
                     </thead>
@@ -55,8 +55,8 @@
                             <td>{{ json_decode($value->value)->price_increase}} </td>
                             <td>{{ $value->type==0 ? 'ساده' : 'انتخابی' }}</td>
                             <td class="width-22-rem text-left">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
-                                <form class="d-inline" action="" method="post">
+                                <a href="{{ route('admin.market.value.edit',['categoryAttribute' => $categoryAttribute->id , 'value'=> $value->id]) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> ویرایش</a>
+                                <form class="d-inline" action="{{ route('admin.market.value.destroy',['categoryAttribute' => $categoryAttribute->id , 'value'=> $value->id]) }}" method="post">
                                     @csrf
                                     {{ method_field('delete') }}
                                 <button class="btn btn-danger btn-sm delete" type="submit"><i class="fa fa-trash-alt"></i> حذف</button>
@@ -64,8 +64,8 @@
                             </td>
                         </tr>
                         @endforeach
-                       
-                        
+
+
                     </tbody>
                 </table>
             </section>

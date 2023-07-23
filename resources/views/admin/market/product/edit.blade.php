@@ -74,9 +74,9 @@
 
                         <section class="col-12 col-md-6">
                             <div class="form-group">
-                                <label for="">انتخاب دسته</label>
+                                <label for="">انتخاب برند</label>
                                 <select name="brand_id" id="" class="form-control form-control-sm">
-                                    <option value="">دسته را انتخاب کنید</option>
+                                    <option value="">برند را انتخاب کنید</option>
                                     @foreach ($brands as $brand)
                                     <option value="{{ $brand->id }}" @if(old('brand_id', $product->brand_id) == $brand->id) selected @endif>{{ $brand->original_name }}</option>
                                     @endforeach

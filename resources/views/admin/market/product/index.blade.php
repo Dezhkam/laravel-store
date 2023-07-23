@@ -51,7 +51,7 @@
                             <th>{{ $loop->iteration }}</th>
                             <td>{{ $product->name }}</td>
                             <td>
-                                <img src="{{ asset($product->image['indexArray'][$product->image['currentImage']] ) }}" alt="" width="100" height="50">
+                                <img  src="{{ asset($product->image['indexArray'][$product->image['currentImage']] ) }}" alt="" width="100" height="50">
                             </td>
                             <td>{{ $product->price }} تومان</td>
                             <td>{{ $product->weight }} کیلو</td>
