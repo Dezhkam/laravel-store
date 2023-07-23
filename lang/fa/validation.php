@@ -193,5 +193,8 @@ return [
         'color_name'                =>  'نام رنگ',
         'price_increase'            => 'افزایش قیمت',
         'unit'                      => 'واحد اندازه گیری',
+        'receiver'                => 'تحویل گیرنده',
+        'deliverer'                => 'تحویل دهنده',
+        'marketable_number'                => 'تعداد',
     ],
 ];

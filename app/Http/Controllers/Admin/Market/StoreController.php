@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin\Market;
 
 use Illuminate\Http\Request;
 use App\Models\Market\Product;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Market\StoreRequest;
+use App\Http\Requests\Admin\Market\StoreUpdateRequest;
 
 class StoreController extends Controller
 {
@@ -24,9 +27,9 @@ class StoreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function addToStore()
+    public function addToStore(Product $product)
     {
-        return view('admin.market.store.add-to-store');
+        return view('admin.market.store.add-to-store',compact('product'));
     }
 
     /**
@@ -35,9 +38,12 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request,Product $product)
     {
-        //
+        $product->marketable_number += $request->marketable_number;
+        $product->save();
+        Log::info(" Receiver => {$request->receiver} , Deliverer => {$request->deliverer} , Description => {$request->description} , Add => {$request->marketable_number} ");
+        return redirect()->route('admin.market.store.index')->with('swal-success','موجودی جدید با موفقیت ثبت شد');
     }
 
     /**
@@ -57,9 +63,9 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        return view('admin.market.store.edit',compact('product'));
     }
 
     /**
@@ -69,9 +75,11 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUpdateRequest $request,Product $product)
     {
-        //
+        $inputs = $request->all();
+        $product->update($inputs);
+        return redirect()->route('admin.market.store.index')->with('swal-success','موجودی شما با موفقیت ویرایش شد');
     }
 
     /**
