@@ -45,5 +45,9 @@ class PaymentController extends Controller
         return redirect()->back()->with('swal-success','تغییر شما با موفقیت انجام شد');
 
     }
+    public function show(Payment $payment)
+    {
+        return view('admin.market.payment.show',compact('payment'));
+    }
 
 }
